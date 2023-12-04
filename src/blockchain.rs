@@ -10,7 +10,7 @@ use std::fmt::Write;
 struct Transaction{
     sender:String,
     receiver: String,
-    amount: F32,
+    amount: f32,
 }
 
 #[derive(Debug, Serialize)]
@@ -91,7 +91,7 @@ impl Chain{
     pub fn last_hash(&self) -> String{
         let block = match self.chain.last() {
             Some(block) => block,
-            None => String::from_utf8(vec![48; 64]).unwrap(),
+            None => return String::from_utf8(vec![48; 64]).unwrap(),
         };
 
         Chain::hash(&block.header)
@@ -110,7 +110,7 @@ impl Chain{
     fn get_merkle(curr_transaction: Vec<Transaction>) -> String{
         let mut merkle = Vec::new();
         for t in curr_transaction{
-            let hash = Chain::hash(t);
+            let hash = Chain::hash(&t);
             merkle.push(hash);
         }
 
